@@ -35,15 +35,15 @@ const workoutPlan: WorkoutDay[] = [
     id: 'monday',
     shortName: 'Seg',
     dayOfWeek: 'Segunda-feira',
-    title: 'Superior A (Base / Força)',
-    description: 'Foco: cargas mais altas + compostos.',
+    title: 'Superior A (Peito + Tríceps)',
+    description: 'Foco: Cargas mais altas + compostos. Peito já recruta tríceps.',
     exercises: [
-      { id: 'mon-1', name: 'Supino reto com barra', sets: 4, reps: '6 a 8' },
-      { id: 'mon-2', name: 'Barra fixa (ou puxada alta)', sets: 4, reps: '6 a 8' },
-      { id: 'mon-3', name: 'Desenvolvimento militar', sets: 3, reps: '6 a 8' },
-      { id: 'mon-4', name: 'Remada curvada', sets: 3, reps: '8 a 10' },
+      { id: 'mon-1', name: 'Supino reto', sets: 4, reps: '6 a 8' },
+      { id: 'mon-2', name: 'Supino inclinado', sets: 3, reps: '8 a 10' },
+      { id: 'mon-3', name: 'Crucifixo', sets: 3, reps: '10 a 12' },
+      { id: 'mon-4', name: 'Mergulho (ou paralelas)', sets: 3, reps: '8 a 10' },
       { id: 'mon-5', name: 'Tríceps testa', sets: 3, reps: '10 a 12' },
-      { id: 'mon-6', name: 'Rosca direta', sets: 3, reps: '10 a 12' },
+      { id: 'mon-6', name: 'Tríceps corda', sets: 3, reps: '12 a 15' },
     ],
     cardio: 'Cardio leve opcional (15-20 min).'
   },
@@ -52,14 +52,14 @@ const workoutPlan: WorkoutDay[] = [
     shortName: 'Ter',
     dayOfWeek: 'Terça-feira',
     title: 'Inferior A (Quadríceps)',
-    description: 'Foco: Quadríceps dominante.',
+    description: 'Foco: Quadríceps dominante (parte da frente).',
     exercises: [
-      { id: 'tue-1', name: 'Agachamento livre', sets: 4, reps: '6 a 8' },
+      { id: 'tue-1', name: 'Agachamento', sets: 4, reps: '6 a 8' },
       { id: 'tue-2', name: 'Leg press', sets: 3, reps: '8 a 10' },
-      { id: 'tue-3', name: 'Cadeira extensora', sets: 3, reps: '10 a 12' },
-      { id: 'tue-4', name: 'Afundo (walking lunge)', sets: 3, reps: '10 cada perna' },
+      { id: 'tue-3', name: 'Cadeira extensora', sets: 3, reps: '12 a 15' },
+      { id: 'tue-4', name: 'Afundo', sets: 3, reps: '10 cada perna' },
       { id: 'tue-5', name: 'Panturrilha em pé', sets: 4, reps: '12 a 15' },
-      { id: 'tue-6', name: 'Abdômen (prancha)', sets: 3, reps: '30 a 60s' },
+      { id: 'tue-6', name: 'Abdômen', sets: 3, reps: '15 a 20' },
     ],
     cardio: 'Cardio leve opcional (15-20 min).'
   },
@@ -67,14 +67,14 @@ const workoutPlan: WorkoutDay[] = [
     id: 'wednesday',
     shortName: 'Qua',
     dayOfWeek: 'Quarta-feira',
-    title: 'Superior B (Volume)',
-    description: 'Foco: Volume para costas e peito.',
+    title: 'Superior B (Costas + Bíceps)',
+    description: 'Foco: Volume. Costas já recruta bíceps, combinação eficiente.',
     exercises: [
-      { id: 'wed-1', name: 'Supino inclinado halter', sets: 4, reps: '8 a 10' },
-      { id: 'wed-2', name: 'Puxada aberta', sets: 4, reps: '8 a 10' },
-      { id: 'wed-3', name: 'Elevação lateral', sets: 3, reps: '12 a 15' },
-      { id: 'wed-4', name: 'Remada baixa', sets: 3, reps: '10 a 12' },
-      { id: 'wed-5', name: 'Tríceps corda', sets: 3, reps: '12 a 15' },
+      { id: 'wed-1', name: 'Barra fixa ou puxada', sets: 4, reps: '6 a 8' },
+      { id: 'wed-2', name: 'Remada curvada', sets: 3, reps: '8 a 10' },
+      { id: 'wed-3', name: 'Remada baixa', sets: 3, reps: '10 a 12' },
+      { id: 'wed-4', name: 'Pulldown', sets: 3, reps: '10 a 12' },
+      { id: 'wed-5', name: 'Rosca direta', sets: 3, reps: '10 a 12' },
       { id: 'wed-6', name: 'Rosca alternada', sets: 3, reps: '10 a 12' },
     ],
     cardio: 'Cardio leve opcional (15-20 min).'
@@ -87,9 +87,9 @@ const workoutPlan: WorkoutDay[] = [
     description: 'Foco: Cadeia posterior e glúteos.',
     exercises: [
       { id: 'thu-1', name: 'Levantamento terra', sets: 4, reps: '5 a 6' },
-      { id: 'thu-2', name: 'Mesa flexora', sets: 3, reps: '10 a 12' },
-      { id: 'thu-3', name: 'Stiff', sets: 3, reps: '8 a 10' },
-      { id: 'thu-4', name: 'Glute bridge / hip thrust', sets: 3, reps: '10 a 12' },
+      { id: 'thu-2', name: 'Stiff', sets: 3, reps: '8 a 10' },
+      { id: 'thu-3', name: 'Mesa flexora', sets: 3, reps: '10 a 12' },
+      { id: 'thu-4', name: 'Hip thrust', sets: 3, reps: '10 a 12' },
       { id: 'thu-5', name: 'Panturrilha sentado', sets: 4, reps: '12 a 15' },
       { id: 'thu-6', name: 'Abdômen infra', sets: 3, reps: '12 a 15' },
     ],
@@ -99,15 +99,15 @@ const workoutPlan: WorkoutDay[] = [
     id: 'friday',
     shortName: 'Sex',
     dayOfWeek: 'Sexta-feira',
-    title: 'Superior C (Estético / Pump)',
-    description: 'O "segredo" pra crescer visualmente.',
+    title: 'Superior C (Ombro + Acabamento)',
+    description: 'Foco: O "segredo" pra crescer visualmente.',
     exercises: [
-      { id: 'fri-1', name: 'Crucifixo máquina ou halter', sets: 3, reps: '12 a 15' },
-      { id: 'fri-2', name: 'Pulldown neutro', sets: 3, reps: '10 a 12' },
-      { id: 'fri-3', name: 'Elevação lateral + drop set', sets: 3, reps: '12 a 15' },
+      { id: 'fri-1', name: 'Desenvolvimento', sets: 4, reps: '6 a 8' },
+      { id: 'fri-2', name: 'Elevação lateral', sets: 4, reps: '12 a 15' },
+      { id: 'fri-3', name: 'Elevação frontal', sets: 3, reps: '10 a 12' },
       { id: 'fri-4', name: 'Face pull', sets: 3, reps: '12 a 15' },
-      { id: 'fri-5', name: 'Tríceps banco', sets: 3, reps: '12 a 15' },
-      { id: 'fri-6', name: 'Rosca concentrada', sets: 3, reps: '12 a 15' },
+      { id: 'fri-5', name: 'Trapézio encolhimento', sets: 3, reps: '10 a 12' },
+      { id: 'fri-6', name: 'Exercício leve de braço (opcional)', sets: 3, reps: '12 a 15' },
     ],
     cardio: 'Cardio leve opcional (15-20 min).'
   }
@@ -332,7 +332,7 @@ export default function App() {
                 
                 <div className="mt-4 flex items-start gap-2 text-xs text-orange-400 bg-orange-400/10 p-3 rounded-xl border border-orange-400/20">
                   <Info className="w-4 h-4 shrink-0 mt-0.5" />
-                  <p>Descanso: Compostos 90–120s | Isolados 60–90s</p>
+                  <p>Descanso: Compostos 2 min (120s) | Isoladores 1 min (60s). Tempo total: ~1h20.</p>
                 </div>
               </div>
             </div>
