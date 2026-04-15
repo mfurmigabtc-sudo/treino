@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CheckCircle2, Circle, Flame, Dumbbell, Activity, RefreshCcw, Info, History, ArrowLeft, Trophy, CalendarDays, Timer, X } from 'lucide-react';
+import { CheckCircle2, Circle, Flame, Dumbbell, Activity, RefreshCcw, Info, History, ArrowLeft, Trophy, CalendarDays, Timer, X, Search, Image, PlaySquare } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 // Data
@@ -144,6 +144,9 @@ export default function App() {
   const [isTimerOpen, setIsTimerOpen] = useState(false);
   const [restTime, setRestTime] = useState<number | null>(null);
   const [initialRestTime, setInitialRestTime] = useState<number>(60);
+
+  // Media Modal State
+  const [selectedExerciseForMedia, setSelectedExerciseForMedia] = useState<Exercise | null>(null);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -393,6 +396,17 @@ export default function App() {
                         )}
                       </div>
                     </button>
+                    
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedExerciseForMedia(exercise);
+                      }}
+                      className="absolute top-4 right-4 p-2 rounded-full bg-zinc-800/50 text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors"
+                      aria-label="Ver execução do exercício"
+                    >
+                      <Search className="w-4 h-4" />
+                    </button>
                   </motion.div>
                 );
               })}
@@ -590,6 +604,65 @@ export default function App() {
           </AnimatePresence>
         </div>
       </div>
+
+      {/* Exercise Media Modal */}
+      <AnimatePresence>
+        {selectedExerciseForMedia && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+            onClick={() => setSelectedExerciseForMedia(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-xl font-bold text-white pr-4">
+                  Como executar: {selectedExerciseForMedia.name}
+                </h3>
+                <button 
+                  onClick={() => setSelectedExerciseForMedia(null)}
+                  className="p-2 bg-zinc-800 rounded-full text-zinc-400 hover:text-white transition-colors shrink-0"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              
+              <p className="text-zinc-400 text-sm mb-6">
+                Escolha onde deseja buscar a demonstração visual deste exercício:
+              </p>
+
+              <div className="space-y-3">
+                <a
+                  href={`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(selectedExerciseForMedia.name + ' musculação execução')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 w-full p-4 bg-zinc-800 hover:bg-zinc-700 rounded-xl transition-colors text-white font-medium"
+                >
+                  <Image className="w-5 h-5 text-blue-400" />
+                  Ver Imagens (Google)
+                </a>
+                
+                <a
+                  href={`https://www.youtube.com/results?search_query=${encodeURIComponent(selectedExerciseForMedia.name + ' musculação execução')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 w-full p-4 bg-zinc-800 hover:bg-zinc-700 rounded-xl transition-colors text-white font-medium"
+                >
+                  <PlaySquare className="w-5 h-5 text-red-400" />
+                  Ver Vídeos (YouTube)
+                </a>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
