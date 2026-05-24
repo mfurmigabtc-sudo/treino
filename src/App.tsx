@@ -35,81 +35,78 @@ const workoutPlan: WorkoutDay[] = [
     id: 'monday',
     shortName: 'Seg',
     dayOfWeek: 'Segunda-feira',
-    title: 'Superior A (Peito + Tríceps)',
-    description: 'Foco: Cargas mais altas + compostos. Peito já recruta tríceps.',
+    title: 'Costas + Ombro Estabilizador',
+    description: 'Foco: postura, escápula, manguito e dorsal',
     exercises: [
-      { id: 'mon-1', name: 'Supino reto', sets: 4, reps: '6 a 8' },
-      { id: 'mon-2', name: 'Supino inclinado', sets: 3, reps: '8 a 10' },
-      { id: 'mon-3', name: 'Crucifixo', sets: 3, reps: '10 a 12' },
-      { id: 'mon-4', name: 'Mergulho (ou paralelas)', sets: 3, reps: '8 a 10' },
-      { id: 'mon-5', name: 'Tríceps testa', sets: 3, reps: '10 a 12' },
-      { id: 'mon-6', name: 'Tríceps corda', sets: 3, reps: '12 a 15' },
+      { id: 'mon-1', name: 'Puxada frente pegada neutra', sets: 4, reps: '10' },
+      { id: 'mon-2', name: 'Remada baixa triangulo', sets: 4, reps: '10' },
+      { id: 'mon-3', name: 'Face pull', sets: 4, reps: '15' },
+      { id: 'mon-4', name: 'Remada unilateral halter', sets: 3, reps: '12' },
+      { id: 'mon-5', name: 'Elevação lateral leve/controlada', sets: 3, reps: '15' },
+      { id: 'mon-6', name: 'Rotação externa com elástico/polia', sets: 3, reps: '15' },
     ],
-    cardio: 'Cardio leve opcional (15-20 min).'
+    cardio: 'Cardio final: 10 min caminhada inclinada'
   },
   {
     id: 'tuesday',
     shortName: 'Ter',
     dayOfWeek: 'Terça-feira',
-    title: 'Inferior A (Quadríceps)',
-    description: 'Foco: Quadríceps dominante (parte da frente).',
+    title: 'Joelho + Quadríceps + Core',
+    description: 'Foco: estabilidade do joelho e fortalecimento funcional',
     exercises: [
-      { id: 'tue-1', name: 'Agachamento', sets: 4, reps: '6 a 8' },
-      { id: 'tue-2', name: 'Leg press', sets: 3, reps: '8 a 10' },
-      { id: 'tue-3', name: 'Cadeira extensora', sets: 3, reps: '12 a 15' },
-      { id: 'tue-4', name: 'Afundo', sets: 3, reps: '10 cada perna' },
-      { id: 'tue-5', name: 'Panturrilha em pé', sets: 4, reps: '12 a 15' },
-      { id: 'tue-6', name: 'Abdômen', sets: 3, reps: '15 a 20' },
+      { id: 'tue-1', name: 'Agachamento goblet', sets: 4, reps: '10' },
+      { id: 'tue-2', name: 'Leg press pés médios', sets: 3, reps: '12' },
+      { id: 'tue-3', name: 'Step-up no banco', sets: 3, reps: '10 cada perna' },
+      { id: 'tue-4', name: 'Cadeira extensora CONTROLADA', sets: 3, reps: '15' },
+      { id: 'tue-5', name: 'Caminhada lateral com miniband', sets: 3, reps: '15' },
+      { id: 'tue-6', name: 'Prancha', sets: 3, reps: '40s' },
     ],
-    cardio: 'Cardio leve opcional (15-20 min).'
+    cardio: 'Bicicleta ou escada — 10 min'
   },
   {
     id: 'wednesday',
     shortName: 'Qua',
     dayOfWeek: 'Quarta-feira',
-    title: 'Superior B (Costas + Bíceps)',
-    description: 'Foco: Volume. Costas já recruta bíceps, combinação eficiente.',
+    title: 'Metabólico + Posterior',
+    description: 'Foco: emagrecimento + costas + glúteo',
     exercises: [
-      { id: 'wed-1', name: 'Barra fixa ou puxada', sets: 4, reps: '6 a 8' },
-      { id: 'wed-2', name: 'Remada curvada', sets: 3, reps: '8 a 10' },
-      { id: 'wed-3', name: 'Remada baixa', sets: 3, reps: '10 a 12' },
-      { id: 'wed-4', name: 'Pulldown', sets: 3, reps: '10 a 12' },
-      { id: 'wed-5', name: 'Rosca direta', sets: 3, reps: '10 a 12' },
-      { id: 'wed-6', name: 'Rosca alternada', sets: 3, reps: '10 a 12' },
+      { id: 'wed-1', name: 'Circuito 4x (Kettlebell Deadlift, Remada TRX, Stiff halter, Corda naval/Bike)', sets: 4, reps: '12 reps / 40s cardio', notes: '4 exercícios em sequência. Descanso apenas após o circuito (90s).' },
+      { id: 'wed-2', name: 'Mesa flexora', sets: 3, reps: '12' },
+      { id: 'wed-3', name: 'Hip thrust', sets: 3, reps: '12' },
+      { id: 'wed-4', name: 'Abdômen infra', sets: 3, reps: '15' },
     ],
-    cardio: 'Cardio leve opcional (15-20 min).'
+    cardio: ''
   },
   {
     id: 'thursday',
     shortName: 'Qui',
     dayOfWeek: 'Quinta-feira',
-    title: 'Inferior B (Posterior + Glúteo)',
-    description: 'Foco: Cadeia posterior e glúteos.',
+    title: 'Ombro + Costas + Mobilidade',
+    description: 'Foco: saúde articular',
     exercises: [
-      { id: 'thu-1', name: 'Levantamento terra', sets: 4, reps: '5 a 6' },
-      { id: 'thu-2', name: 'Stiff', sets: 3, reps: '8 a 10' },
-      { id: 'thu-3', name: 'Mesa flexora', sets: 3, reps: '10 a 12' },
-      { id: 'thu-4', name: 'Hip thrust', sets: 3, reps: '10 a 12' },
-      { id: 'thu-5', name: 'Panturrilha sentado', sets: 4, reps: '12 a 15' },
-      { id: 'thu-6', name: 'Abdômen infra', sets: 3, reps: '12 a 15' },
+      { id: 'thu-1', name: 'Desenvolvimento com halter leve', sets: 3, reps: '10' },
+      { id: 'thu-2', name: 'Face pull', sets: 4, reps: '15' },
+      { id: 'thu-3', name: 'Crucifixo invertido', sets: 3, reps: '15' },
+      { id: 'thu-4', name: 'Pulldown', sets: 3, reps: '12' },
+      { id: 'thu-5', name: 'Farmer walk', sets: 4, reps: 'voltas' },
+      { id: 'thu-6', name: 'Mobilidade torácica/elástico', sets: 1, reps: '10 min' },
     ],
-    cardio: 'Cardio leve opcional (15-20 min).'
+    cardio: 'Caminhada inclinada — 10 min'
   },
   {
     id: 'friday',
     shortName: 'Sex',
     dayOfWeek: 'Sexta-feira',
-    title: 'Superior C (Ombro + Acabamento)',
-    description: 'Foco: O "segredo" pra crescer visualmente.',
+    title: 'Inferior Completo + HIIT',
+    description: 'Foco: gasto calórico + joelho + glúteo',
     exercises: [
-      { id: 'fri-1', name: 'Desenvolvimento', sets: 4, reps: '6 a 8' },
-      { id: 'fri-2', name: 'Elevação lateral', sets: 4, reps: '12 a 15' },
-      { id: 'fri-3', name: 'Elevação frontal', sets: 3, reps: '10 a 12' },
-      { id: 'fri-4', name: 'Face pull', sets: 3, reps: '12 a 15' },
-      { id: 'fri-5', name: 'Trapézio encolhimento', sets: 3, reps: '10 a 12' },
-      { id: 'fri-6', name: 'Exercício leve de braço (opcional)', sets: 3, reps: '12 a 15' },
+      { id: 'fri-1', name: 'Afundo reverso', sets: 3, reps: '10 cada perna' },
+      { id: 'fri-2', name: 'Stiff', sets: 4, reps: '10' },
+      { id: 'fri-3', name: 'Hip thrust', sets: 4, reps: '12' },
+      { id: 'fri-4', name: 'Panturrilha', sets: 4, reps: '15' },
+      { id: 'fri-5', name: 'Abdução máquina/elástico', sets: 3, reps: '15' },
     ],
-    cardio: 'Cardio leve opcional (15-20 min).'
+    cardio: 'HIIT: 15 min (30s forte / 60s leve)'
   }
 ];
 
@@ -335,7 +332,7 @@ export default function App() {
                 
                 <div className="mt-4 flex items-start gap-2 text-xs text-orange-400 bg-orange-400/10 p-3 rounded-xl border border-orange-400/20">
                   <Info className="w-4 h-4 shrink-0 mt-0.5" />
-                  <p>Descanso: Compostos 2 min (120s) | Isoladores 1 min (60s). Tempo total: ~1h20.</p>
+                  <p>Descanso: Compostos 60–90s | Isoladores 45s | Circuitos 90s. Tempo total: ~45 min.</p>
                 </div>
               </div>
             </div>
@@ -539,7 +536,7 @@ export default function App() {
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
                 className="absolute bottom-20 right-0 bg-zinc-800 border border-zinc-700 rounded-2xl p-2 shadow-xl flex gap-2"
               >
-                {[60, 90, 120].map(sec => (
+                {[45, 60, 90].map(sec => (
                   <button
                     key={sec}
                     onClick={() => startTimer(sec)}
