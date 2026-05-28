@@ -192,11 +192,88 @@ const workoutPlans: Record<string, WorkoutDay[]> = {
       ],
       cardio: '15 min escada ou caminhada inclinada'
     }
+  ],
+  isabel: [
+    {
+      id: 'monday',
+      shortName: 'Seg',
+      dayOfWeek: 'Segunda-feira',
+      title: 'Glúteos',
+      exercises: [
+        { id: 'isabel-mon-1', name: 'Abdutora', sets: 3, reps: '15' },
+        { id: 'isabel-mon-2', name: 'Elevação pélvica', sets: 4, reps: '12' },
+        { id: 'isabel-mon-3', name: 'Coice na polia', sets: 3, reps: '12' },
+        { id: 'isabel-mon-4', name: 'Flexora', sets: 3, reps: '12' },
+        { id: 'isabel-mon-5', name: 'Mesa flexora', sets: 3, reps: '12' },
+      ],
+      description: 'Treino de glúteos.',
+      cardio: ''
+    },
+    {
+      id: 'tuesday',
+      shortName: 'Ter',
+      dayOfWeek: 'Terça-feira',
+      title: 'Peito e Tríceps',
+      exercises: [
+        { id: 'isabel-tue-1', name: 'Supino reto', sets: 3, reps: '12' },
+        { id: 'isabel-tue-2', name: 'Supino reto com alteres', sets: 3, reps: '12' },
+        { id: 'isabel-tue-3', name: 'Supino reto na máquina', sets: 3, reps: '12' },
+        { id: 'isabel-tue-4', name: 'Tríceps na polia', sets: 3, reps: '15' },
+        { id: 'isabel-tue-5', name: 'Tríceps na máquina', sets: 3, reps: '15' },
+        { id: 'isabel-tue-6', name: 'Tríceps francês', sets: 3, reps: '12' },
+      ],
+      description: '',
+      cardio: ''
+    },
+    {
+      id: 'wednesday',
+      shortName: 'Qua',
+      dayOfWeek: 'Quarta-feira',
+      title: 'Cárdio',
+      exercises: [
+        { id: 'isabel-wed-1', name: 'Jump', sets: 1, reps: '30 min' },
+      ],
+      description: 'Cárdio intenso.',
+      cardio: ''
+    },
+    {
+      id: 'thursday',
+      shortName: 'Qui',
+      dayOfWeek: 'Quinta-feira',
+      title: 'Quadríceps e interno de coxa',
+      exercises: [
+        { id: 'isabel-thu-1', name: 'Extensora', sets: 3, reps: '15' },
+        { id: 'isabel-thu-2', name: 'Agachamento smith', sets: 4, reps: '10' },
+        { id: 'isabel-thu-3', name: 'Leg 45', sets: 4, reps: '12' },
+        { id: 'isabel-thu-4', name: 'Leg horizontal unilateral', sets: 3, reps: '12' },
+        { id: 'isabel-thu-5', name: 'Adutora', sets: 4, reps: '15' },
+      ],
+      description: '',
+      cardio: ''
+    },
+    {
+      id: 'friday',
+      shortName: 'Sex',
+      dayOfWeek: 'Sexta-feira',
+      title: 'Costa e ombro',
+      exercises: [
+        { id: 'isabel-fri-1', name: 'Puxada alta', sets: 4, reps: '12' },
+        { id: 'isabel-fri-2', name: 'Puxada alta com triângulo', sets: 4, reps: '12' },
+        { id: 'isabel-fri-3', name: 'Remada baixa', sets: 4, reps: '12' },
+        { id: 'isabel-fri-4', name: 'Puxada articulada unilateral', sets: 3, reps: '12' },
+        { id: 'isabel-fri-5', name: 'Graviton', sets: 3, reps: '12' },
+        { id: 'isabel-fri-6', name: 'Rosca direta', sets: 3, reps: '12' },
+        { id: 'isabel-fri-7', name: 'Rosca martelo', sets: 3, reps: '12' },
+        { id: 'isabel-fri-8', name: 'Rosca no cabo', sets: 3, reps: '12' },
+      ],
+      description: '',
+      cardio: ''
+    }
   ]
 };
 
 export default function App() {
-  const [activeUser, setActiveUser] = useState<'marco' | 'eliane'>('marco');
+  const [activeUser, setActiveUser] = useState<'marco' | 'eliane' | 'isabel'>('marco');
   const [view, setView] = useState<'workout' | 'history'>('workout');
   const workoutPlan = workoutPlans[activeUser];
   
@@ -331,6 +408,12 @@ export default function App() {
               className={`px-3 py-1 rounded text-xs font-medium transition-colors ${activeUser === 'eliane' ? 'bg-zinc-800 text-white' : 'text-zinc-500'}`}
             >
               Eliane
+            </button>
+            <button 
+              onClick={() => { setActiveUser('isabel'); setActiveDay(workoutPlans.isabel[0].id); }}
+              className={`px-3 py-1 rounded text-xs font-medium transition-colors ${activeUser === 'isabel' ? 'bg-zinc-800 text-white' : 'text-zinc-500'}`}
+            >
+              Isabel
             </button>
           </div>
           <div className="flex items-center gap-1">
