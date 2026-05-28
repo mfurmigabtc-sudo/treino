@@ -30,91 +30,178 @@ type WorkoutHistoryEntry = {
   totalItems: number;
 };
 
-const workoutPlan: WorkoutDay[] = [
-  {
-    id: 'monday',
-    shortName: 'Seg',
-    dayOfWeek: 'Segunda-feira',
-    title: 'Costas + Ombro Estabilizador',
-    description: 'Foco: postura, escápula, manguito e dorsal',
-    exercises: [
-      { id: 'mon-1', name: 'Puxada frente pegada neutra', sets: 4, reps: '10' },
-      { id: 'mon-2', name: 'Remada baixa triangulo', sets: 4, reps: '10' },
-      { id: 'mon-3', name: 'Face pull', sets: 4, reps: '15' },
-      { id: 'mon-4', name: 'Remada unilateral halter', sets: 3, reps: '12' },
-      { id: 'mon-5', name: 'Elevação lateral leve/controlada', sets: 3, reps: '15' },
-      { id: 'mon-6', name: 'Rotação externa com elástico/polia', sets: 3, reps: '15' },
-    ],
-    cardio: 'Cardio final: 10 min caminhada inclinada'
-  },
-  {
-    id: 'tuesday',
-    shortName: 'Ter',
-    dayOfWeek: 'Terça-feira',
-    title: 'Joelho + Quadríceps + Core',
-    description: 'Foco: estabilidade do joelho e fortalecimento funcional',
-    exercises: [
-      { id: 'tue-1', name: 'Agachamento goblet', sets: 4, reps: '10' },
-      { id: 'tue-2', name: 'Leg press pés médios', sets: 3, reps: '12' },
-      { id: 'tue-3', name: 'Step-up no banco', sets: 3, reps: '10 cada perna' },
-      { id: 'tue-4', name: 'Cadeira extensora CONTROLADA', sets: 3, reps: '15' },
-      { id: 'tue-5', name: 'Caminhada lateral com miniband', sets: 3, reps: '15' },
-      { id: 'tue-6', name: 'Prancha', sets: 3, reps: '40s' },
-    ],
-    cardio: 'Bicicleta ou escada — 10 min'
-  },
-  {
-    id: 'wednesday',
-    shortName: 'Qua',
-    dayOfWeek: 'Quarta-feira',
-    title: 'Metabólico + Posterior',
-    description: 'Foco: emagrecimento + costas + glúteo',
-    exercises: [
-      { id: 'wed-1', name: 'Circuito 4x (Kettlebell Deadlift, Remada TRX, Stiff halter, Corda naval/Bike)', sets: 4, reps: '12 reps / 40s cardio', notes: '4 exercícios em sequência. Descanso apenas após o circuito (90s).' },
-      { id: 'wed-2', name: 'Mesa flexora', sets: 3, reps: '12' },
-      { id: 'wed-3', name: 'Hip thrust', sets: 3, reps: '12' },
-      { id: 'wed-4', name: 'Abdômen infra', sets: 3, reps: '15' },
-    ],
-    cardio: ''
-  },
-  {
-    id: 'thursday',
-    shortName: 'Qui',
-    dayOfWeek: 'Quinta-feira',
-    title: 'Ombro + Costas + Mobilidade',
-    description: 'Foco: saúde articular',
-    exercises: [
-      { id: 'thu-1', name: 'Desenvolvimento com halter leve', sets: 3, reps: '10' },
-      { id: 'thu-2', name: 'Face pull', sets: 4, reps: '15' },
-      { id: 'thu-3', name: 'Crucifixo invertido', sets: 3, reps: '15' },
-      { id: 'thu-4', name: 'Pulldown', sets: 3, reps: '12' },
-      { id: 'thu-5', name: 'Farmer walk', sets: 4, reps: 'voltas' },
-      { id: 'thu-6', name: 'Mobilidade torácica/elástico', sets: 1, reps: '10 min' },
-    ],
-    cardio: 'Caminhada inclinada — 10 min'
-  },
-  {
-    id: 'friday',
-    shortName: 'Sex',
-    dayOfWeek: 'Sexta-feira',
-    title: 'Inferior Completo + HIIT',
-    description: 'Foco: gasto calórico + joelho + glúteo',
-    exercises: [
-      { id: 'fri-1', name: 'Afundo reverso', sets: 3, reps: '10 cada perna' },
-      { id: 'fri-2', name: 'Stiff', sets: 4, reps: '10' },
-      { id: 'fri-3', name: 'Hip thrust', sets: 4, reps: '12' },
-      { id: 'fri-4', name: 'Panturrilha', sets: 4, reps: '15' },
-      { id: 'fri-5', name: 'Abdução máquina/elástico', sets: 3, reps: '15' },
-    ],
-    cardio: 'HIIT: 15 min (30s forte / 60s leve)'
-  }
-];
+const workoutPlans: Record<string, WorkoutDay[]> = {
+  marco: [
+    {
+      id: 'monday',
+      shortName: 'Seg',
+      dayOfWeek: 'Segunda-feira',
+      title: 'Costas + Ombro Estabilizador',
+      description: 'Foco: postura, escápula, manguito e dorsal',
+      exercises: [
+        { id: 'marco-mon-1', name: 'Puxada frente pegada neutra', sets: 4, reps: '10' },
+        { id: 'marco-mon-2', name: 'Remada baixa triangulo', sets: 4, reps: '10' },
+        { id: 'marco-mon-3', name: 'Face pull', sets: 4, reps: '15' },
+        { id: 'marco-mon-4', name: 'Remada unilateral halter', sets: 3, reps: '12' },
+        { id: 'marco-mon-5', name: 'Elevação lateral leve/controlada', sets: 3, reps: '15' },
+        { id: 'marco-mon-6', name: 'Rotação externa com elástico/polia', sets: 3, reps: '15' },
+      ],
+      cardio: 'Cardio final: 10 min caminhada inclinada'
+    },
+    {
+      id: 'tuesday',
+      shortName: 'Ter',
+      dayOfWeek: 'Terça-feira',
+      title: 'Joelho + Quadríceps + Core',
+      description: 'Foco: estabilidade do joelho e fortalecimento funcional',
+      exercises: [
+        { id: 'marco-tue-1', name: 'Agachamento goblet', sets: 4, reps: '10' },
+        { id: 'marco-tue-2', name: 'Leg press pés médios', sets: 3, reps: '12' },
+        { id: 'marco-tue-3', name: 'Step-up no banco', sets: 3, reps: '10 cada perna' },
+        { id: 'marco-tue-4', name: 'Cadeira extensora CONTROLADA', sets: 3, reps: '15' },
+        { id: 'marco-tue-5', name: 'Caminhada lateral com miniband', sets: 3, reps: '15' },
+        { id: 'marco-tue-6', name: 'Prancha', sets: 3, reps: '40s' },
+      ],
+      cardio: 'Bicicleta ou escada — 10 min'
+    },
+    {
+      id: 'wednesday',
+      shortName: 'Qua',
+      dayOfWeek: 'Quarta-feira',
+      title: 'Metabólico + Posterior',
+      description: 'Foco: emagrecimento + costas + glúteo',
+      exercises: [
+        { id: 'marco-wed-1', name: 'Circuito 4x (Kettlebell Deadlift, Remada TRX, Stiff halter, Corda naval/Bike)', sets: 4, reps: '12 reps / 40s cardio', notes: '4 exercícios em sequência. Descanso apenas após o circuito (90s).' },
+        { id: 'marco-wed-2', name: 'Mesa flexora', sets: 3, reps: '12' },
+        { id: 'marco-wed-3', name: 'Hip thrust', sets: 3, reps: '12' },
+        { id: 'marco-wed-4', name: 'Abdômen infra', sets: 3, reps: '15' },
+      ],
+      cardio: ''
+    },
+    {
+      id: 'thursday',
+      shortName: 'Qui',
+      dayOfWeek: 'Quinta-feira',
+      title: 'Ombro + Costas + Mobilidade',
+      description: 'Foco: saúde articular',
+      exercises: [
+        { id: 'marco-thu-1', name: 'Desenvolvimento com halter leve', sets: 3, reps: '10' },
+        { id: 'marco-thu-2', name: 'Face pull', sets: 4, reps: '15' },
+        { id: 'marco-thu-3', name: 'Crucifixo invertido', sets: 3, reps: '15' },
+        { id: 'marco-thu-4', name: 'Pulldown', sets: 3, reps: '12' },
+        { id: 'marco-thu-5', name: 'Farmer walk', sets: 4, reps: 'voltas' },
+        { id: 'marco-thu-6', name: 'Mobilidade torácica/elástico', sets: 1, reps: '10 min' },
+      ],
+      cardio: 'Caminhada inclinada — 10 min'
+    },
+    {
+      id: 'friday',
+      shortName: 'Sex',
+      dayOfWeek: 'Sexta-feira',
+      title: 'Inferior Completo + HIIT',
+      description: 'Foco: gasto calórico + joelho + glúteo',
+      exercises: [
+        { id: 'marco-fri-1', name: 'Afundo reverso', sets: 3, reps: '10 cada perna' },
+        { id: 'marco-fri-2', name: 'Stiff', sets: 4, reps: '10' },
+        { id: 'marco-fri-3', name: 'Hip thrust', sets: 4, reps: '12' },
+        { id: 'marco-fri-4', name: 'Panturrilha', sets: 4, reps: '15' },
+        { id: 'marco-fri-5', name: 'Abdução máquina/elástico', sets: 3, reps: '15' },
+      ],
+      cardio: 'HIIT: 15 min (30s forte / 60s leve)'
+    }
+  ],
+  eliane: [
+    {
+      id: 'monday',
+      shortName: 'Seg',
+      dayOfWeek: 'Segunda-feira',
+      title: 'Glúteo + Posterior',
+      description: 'Foco: Fortalecimento cadeia posterior e glúteos.',
+      exercises: [
+        { id: 'eliane-mon-1', name: 'Elevação pélvica', sets: 4, reps: '12' },
+        { id: 'eliane-mon-2', name: 'Stiff com halter', sets: 4, reps: '10' },
+        { id: 'eliane-mon-3', name: 'Mesa flexora', sets: 4, reps: '12' },
+        { id: 'eliane-mon-4', name: 'Afundo caminhando', sets: 3, reps: '12 cada perna' },
+        { id: 'eliane-mon-5', name: 'Coice no cabo', sets: 3, reps: '15' },
+        { id: 'eliane-mon-6', name: 'Abdutora', sets: 4, reps: '20' },
+      ],
+      cardio: '15 min caminhada inclinada'
+    },
+    {
+      id: 'tuesday',
+      shortName: 'Ter',
+      dayOfWeek: 'Terça-feira',
+      title: 'Superior + Core',
+      description: 'Foco: Membros superiores e abdômen.',
+      exercises: [
+        { id: 'eliane-tue-1', name: 'Puxada frente', sets: 4, reps: '12' },
+        { id: 'eliane-tue-2', name: 'Remada baixa', sets: 4, reps: '12' },
+        { id: 'eliane-tue-3', name: 'Desenvolvimento com halter leve', sets: 3, reps: '12' },
+        { id: 'eliane-tue-4', name: 'Tríceps corda', sets: 3, reps: '15' },
+        { id: 'eliane-tue-5', name: 'Rosca direta leve', sets: 3, reps: '12' },
+        { id: 'eliane-tue-6', name: 'Prancha', sets: 3, reps: '30s' },
+        { id: 'eliane-tue-7', name: 'Vacuum abdominal', sets: 3, reps: '20s' },
+      ],
+      cardio: '20 min caminhada ou bike'
+    },
+    {
+      id: 'wednesday',
+      shortName: 'Qua',
+      dayOfWeek: 'Quarta-feira',
+      title: 'Quadríceps + Glúteo',
+      description: 'Foco: Membros inferiores.',
+      exercises: [
+        { id: 'eliane-wed-1', name: 'Agachamento guiado', sets: 4, reps: '10' },
+        { id: 'eliane-wed-2', name: 'Leg press', sets: 4, reps: '12' },
+        { id: 'eliane-wed-3', name: 'Cadeira extensora', sets: 4, reps: '15' },
+        { id: 'eliane-wed-4', name: 'Passada com halter', sets: 3, reps: '12 cada perna' },
+        { id: 'eliane-wed-5', name: 'Abdutora', sets: 4, reps: '20' },
+        { id: 'eliane-wed-6', name: 'Panturrilha máquina', sets: 4, reps: '15' },
+      ],
+      cardio: '10 min HIIT leve'
+    },
+    {
+      id: 'thursday',
+      shortName: 'Qui',
+      dayOfWeek: 'Quinta-feira',
+      title: 'Cardio + Core + Mobilidade',
+      description: 'Foco: Condicionamento e mobilidade.',
+      exercises: [
+        { id: 'eliane-thu-1', name: 'Caminhada inclinada', sets: 1, reps: '20 min' },
+        { id: 'eliane-thu-2', name: 'Bike', sets: 1, reps: '15 min' },
+        { id: 'eliane-thu-3', name: 'Prancha lateral', sets: 3, reps: '30s' },
+        { id: 'eliane-thu-4', name: 'Dead bug', sets: 3, reps: '15' },
+        { id: 'eliane-thu-5', name: 'Vacuum abdominal', sets: 3, reps: '20s' },
+        { id: 'eliane-thu-6', name: 'Alongamento lombar e quadril', sets: 1, reps: '10 min' },
+      ],
+      cardio: ''
+    },
+    {
+      id: 'friday',
+      shortName: 'Sex',
+      dayOfWeek: 'Sexta-feira',
+      title: 'Glúteo Completo',
+      description: 'Foco: Foco total em glúteos.',
+      exercises: [
+        { id: 'eliane-fri-1', name: 'Hip thrust', sets: 4, reps: '12' },
+        { id: 'eliane-fri-2', name: 'Agachamento búlgaro', sets: 3, reps: '10 cada perna' },
+        { id: 'eliane-fri-3', name: 'Stiff com halter', sets: 4, reps: '10' },
+        { id: 'eliane-fri-4', name: 'Glúteo máquina', sets: 4, reps: '15' },
+        { id: 'eliane-fri-5', name: 'Abdutora', sets: 4, reps: '20' },
+        { id: 'eliane-fri-6', name: 'Step-up no banco', sets: 3, reps: '12 cada perna' },
+      ],
+      cardio: '15 min escada ou caminhada inclinada'
+    }
+  ]
+};
 
 export default function App() {
+  const [activeUser, setActiveUser] = useState<'marco' | 'eliane'>('marco');
   const [view, setView] = useState<'workout' | 'history'>('workout');
+  const workoutPlan = workoutPlans[activeUser];
+  
   const [activeDay, setActiveDay] = useState<string>(() => {
     const today = new Date().getDay();
-    // Map Sunday (0) to Friday (5), Monday (1) to Monday (0), etc.
     const dayIndex = today === 0 || today === 6 ? 0 : today - 1;
     return workoutPlan[dayIndex].id;
   });
@@ -231,6 +318,20 @@ export default function App() {
           <div className="flex items-center gap-2">
             <Flame className="text-orange-500 w-6 h-6" />
             <h1 className="font-bold text-xl tracking-tight">Foco & Queima</h1>
+          </div>
+          <div className="flex bg-zinc-950 rounded-lg p-1 mr-auto ml-4">
+            <button 
+              onClick={() => { setActiveUser('marco'); setActiveDay(workoutPlans.marco[0].id); }}
+              className={`px-3 py-1 rounded text-xs font-medium transition-colors ${activeUser === 'marco' ? 'bg-zinc-800 text-white' : 'text-zinc-500'}`}
+            >
+              Marco
+            </button>
+            <button 
+              onClick={() => { setActiveUser('eliane'); setActiveDay(workoutPlans.eliane[0].id); }}
+              className={`px-3 py-1 rounded text-xs font-medium transition-colors ${activeUser === 'eliane' ? 'bg-zinc-800 text-white' : 'text-zinc-500'}`}
+            >
+              Eliane
+            </button>
           </div>
           <div className="flex items-center gap-1">
             {view === 'workout' ? (
