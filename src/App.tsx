@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle2, Circle, Flame, Dumbbell, Activity, RefreshCcw, Info, History, ArrowLeft, Trophy, CalendarDays, Timer, X, Search, Image, PlaySquare } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 // Data
 type Exercise = {
@@ -286,9 +287,18 @@ export default function App() {
     return saved ? JSON.parse(saved) : [];
   });
 
+  const [exerciseLoads, setExerciseLoads] = useState<Record<string, string[]>>(() => {
+    const saved = localStorage.getItem('workout-loads');
+    return saved ? JSON.parse(saved) : {};
+  });
+
   useEffect(() => {
     localStorage.setItem('workout-progress', JSON.stringify(completedItems));
   }, [completedItems]);
+
+  useEffect(() => {
+    localStorage.setItem('workout-loads', JSON.stringify(exerciseLoads));
+  }, [exerciseLoads]);
 
   useEffect(() => {
     localStorage.setItem('workout-history', JSON.stringify(history));
@@ -353,6 +363,18 @@ export default function App() {
   const totalItems = currentDayData.exercises.length + 1; // +1 for cardio
   const completedCount = currentDayData.exercises.filter(ex => completedItems[ex.id]).length + (completedItems[`${activeDay}-cardio`] ? 1 : 0);
   const progressPercentage = Math.round((completedCount / totalItems) * 100);
+
+  const totalEstimatedVolume = currentDayData.exercises.reduce((acc, exercise) => {
+    const loads = exerciseLoads[exercise.id] || [];
+    const exerciseSum = loads.reduce((sum, load) => {
+      if (!load) return sum;
+      const cleaned = load.replace(',', '.');
+      const match = cleaned.match(/([0-9]*\.?[0-9]+)/);
+      const val = match ? parseFloat(match[0]) : 0;
+      return sum + (isNaN(val) ? 0 : val);
+    }, 0);
+    return acc + exerciseSum;
+  }, 0);
 
   const finishWorkout = () => {
     if (completedCount === 0) {
@@ -506,7 +528,23 @@ export default function App() {
                     transition={{ duration: 0.5, ease: "easeOut" }}
                   />
                 </div>
-                
+
+                {/* Volume Total Estimado */}
+                <div className="mt-4 pt-4 border-t border-zinc-800/80 flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400">
+                      <Dumbbell className="w-4 h-4" />
+                    </div>
+                    <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">Volume Total Estimado</span>
+                  </div>
+                  <div className="flex items-baseline gap-1 bg-zinc-950 px-3 py-1.5 rounded-xl border border-zinc-800 shadow-inner">
+                    <span className="text-base font-bold text-emerald-400 font-mono">
+                      {totalEstimatedVolume % 1 === 0 ? totalEstimatedVolume : totalEstimatedVolume.toFixed(1)}
+                    </span>
+                    <span className="text-[10px] text-zinc-500 font-semibold uppercase">kg</span>
+                  </div>
+                </div>
+
                 <div className="mt-4 flex items-start gap-2 text-xs text-orange-400 bg-orange-400/10 p-3 rounded-xl border border-orange-400/20">
                   <Info className="w-4 h-4 shrink-0 mt-0.5" />
                   <p>Descanso: Compostos 60–90s | Isoladores 45s | Circuitos 90s. Tempo total: ~45 min.</p>
@@ -537,50 +575,91 @@ export default function App() {
                         : 'bg-zinc-900 border-zinc-800 hover:border-zinc-700'
                     }`}
                   >
-                    <button
-                      onClick={() => toggleItem(exercise.id)}
-                      className="w-full text-left p-4 flex items-start gap-4"
-                    >
-                      <div className="mt-1 shrink-0 transition-colors duration-300">
-                        {isCompleted ? (
-                          <CheckCircle2 className="w-6 h-6 text-emerald-500" />
-                        ) : (
-                          <Circle className="w-6 h-6 text-zinc-600 group-hover:text-zinc-400" />
-                        )}
-                      </div>
-                      
-                      <div className="flex-1">
-                        <h4 className={`font-medium text-base mb-1 transition-colors duration-300 ${isCompleted ? 'text-emerald-100' : 'text-zinc-100'}`}>
-                          {exercise.name}
-                        </h4>
-                        
-                        <div className="flex items-center gap-3 text-sm">
-                          <span className={`px-2 py-1 rounded-md font-mono text-xs ${isCompleted ? 'bg-emerald-500/20 text-emerald-300' : 'bg-zinc-800 text-zinc-300'}`}>
-                            {exercise.sets} séries
-                          </span>
-                          <span className={`text-xs ${isCompleted ? 'text-emerald-400/70' : 'text-zinc-500'}`}>
-                            {exercise.reps} reps
-                          </span>
+                    {/* Top action area split into interactive parts */}
+                    <div className="p-4 flex items-start justify-between gap-4">
+                      <button
+                        onClick={() => toggleItem(exercise.id)}
+                        className="flex-1 text-left flex items-start gap-3 focus:outline-none"
+                      >
+                        <div className="mt-0.5 shrink-0 transition-colors duration-300">
+                          {isCompleted ? (
+                            <CheckCircle2 className="w-5.5 h-5.5 text-emerald-500" />
+                          ) : (
+                            <Circle className="w-5.5 h-5.5 text-zinc-600 group-hover:text-zinc-400" />
+                          )}
                         </div>
                         
-                        {exercise.notes && (
-                          <p className={`mt-2 text-xs italic ${isCompleted ? 'text-emerald-400/60' : 'text-zinc-500'}`}>
-                            * {exercise.notes}
-                          </p>
-                        )}
+                        <div className="flex-1">
+                          <h4 className={`font-semibold text-base mb-1 transition-colors duration-300 leading-tight ${isCompleted ? 'text-emerald-100' : 'text-zinc-100'}`}>
+                            {exercise.name}
+                          </h4>
+                          
+                          <div className="flex items-center gap-3 text-sm">
+                            <span className={`px-2 py-0.5 rounded font-mono text-xs font-semibold ${isCompleted ? 'bg-emerald-500/20 text-emerald-300' : 'bg-zinc-800 text-zinc-300'}`}>
+                              {exercise.sets} {exercise.sets > 1 ? 'séries' : 'série'}
+                            </span>
+                            <span className={`text-xs font-medium ${isCompleted ? 'text-emerald-400/70' : 'text-zinc-500'}`}>
+                              {exercise.reps} reps
+                            </span>
+                          </div>
+                          
+                          {exercise.notes && (
+                            <p className={`mt-2 text-xs italic ${isCompleted ? 'text-emerald-400/60' : 'text-zinc-500'}`}>
+                              * {exercise.notes}
+                            </p>
+                          )}
+                        </div>
+                      </button>
+
+                      <button
+                        onClick={() => setSelectedExerciseForMedia(exercise)}
+                        className="p-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white transition-colors shrink-0"
+                        title="Ver execução do exercício"
+                        aria-label="Ver execução do exercício"
+                      >
+                        <Search className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    {/* Weight Load Input for each set */}
+                    <div className="px-4 pb-4 pt-2 border-t border-zinc-800/50 bg-zinc-950/20 group-hover:bg-zinc-950/30 transition-colors">
+                      <div className="flex items-center gap-1.5 mb-2 text-zinc-400 font-medium">
+                        <Dumbbell className="w-3.5 h-3.5 text-zinc-500" />
+                        <span className="text-xs">Cargas por série:</span>
                       </div>
-                    </button>
-                    
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedExerciseForMedia(exercise);
-                      }}
-                      className="absolute top-4 right-4 p-2 rounded-full bg-zinc-800/50 text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors"
-                      aria-label="Ver execução do exercício"
-                    >
-                      <Search className="w-4 h-4" />
-                    </button>
+                      <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-5 gap-2">
+                        {Array.from({ length: exercise.sets }).map((_, sIdx) => {
+                          const loadValue = exerciseLoads[exercise.id]?.[sIdx] || '';
+                          return (
+                            <div key={sIdx} className="flex flex-col gap-1">
+                              <span className="text-[10px] text-zinc-500 font-bold font-mono pl-0.5 uppercase">
+                                S{sIdx + 1}
+                              </span>
+                              <input
+                                type="text"
+                                placeholder="— kg"
+                                value={loadValue}
+                                onChange={(e) => {
+                                  const newVal = e.target.value;
+                                  setExerciseLoads(prev => {
+                                    const currentLoads = [...(prev[exercise.id] || [])];
+                                    while (currentLoads.length < exercise.sets) {
+                                      currentLoads.push('');
+                                    }
+                                    currentLoads[sIdx] = newVal;
+                                    return {
+                                      ...prev,
+                                      [exercise.id]: currentLoads
+                                    };
+                                  });
+                                }}
+                                className="w-full bg-zinc-900 border border-zinc-800/80 focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 rounded-lg px-2 py-1 text-xs text-zinc-100 placeholder-zinc-700 font-mono text-center transition"
+                              />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
                   </motion.div>
                 );
               })}
@@ -649,6 +728,71 @@ export default function App() {
                 <CalendarDays className="w-6 h-6 text-emerald-500" />
                 <h2 className="text-2xl font-bold text-white">Histórico de Treinos</h2>
               </div>
+              
+              {history.length > 0 && (() => {
+                const chartData = [...history]
+                  .slice(0, 7)
+                  .reverse()
+                  .map(entry => {
+                    const percentage = Math.round((entry.completedCount / entry.totalItems) * 100);
+                    const dateObj = new Date(entry.date);
+                    return {
+                      name: dateObj.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
+                      porcentagem: percentage,
+                      title: entry.dayTitle,
+                    };
+                  });
+
+                return (
+                  <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 mb-6">
+                    <h3 className="text-xs font-semibold text-zinc-400 mb-4 flex items-center gap-2 uppercase tracking-wide">
+                      <Activity className="w-4 h-4 text-emerald-500" />
+                      Últimos 7 Treinos (% Conclusão)
+                    </h3>
+                    <div className="h-44 w-full">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={chartData} margin={{ top: 10, right: 5, left: -25, bottom: 0 }}>
+                          <XAxis 
+                            dataKey="name" 
+                            stroke="#71717a" 
+                            fontSize={10} 
+                            tickLine={false} 
+                            axisLine={false} 
+                          />
+                          <YAxis 
+                            stroke="#71717a" 
+                            fontSize={10} 
+                            domain={[0, 100]} 
+                            tickLine={false} 
+                            axisLine={false} 
+                            tickFormatter={(value) => `${value}%`}
+                          />
+                          <Tooltip 
+                            cursor={{ fill: 'rgba(255,255,255,0.05)', radius: 6 }}
+                            contentStyle={{ 
+                              backgroundColor: '#18181b', 
+                              borderColor: '#27272a', 
+                              borderRadius: '12px',
+                              fontSize: '11px',
+                              color: '#fff'
+                            }}
+                            formatter={(value: any, name: any, props: any) => [
+                              `${value}%`, 
+                              props.payload.title
+                            ]}
+                          />
+                          <Bar 
+                            dataKey="porcentagem" 
+                            fill="#10b981" 
+                            radius={[4, 4, 0, 0]} 
+                            maxBarSize={28}
+                          />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                );
+              })()}
               
               {history.length === 0 ? (
                 <div className="text-center text-zinc-500 py-12 bg-zinc-900/50 rounded-3xl border border-zinc-800/50">
