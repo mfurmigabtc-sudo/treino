@@ -37,13 +37,14 @@ const workoutPlans: Record<string, WorkoutDay[]> = {
       id: 'monday',
       shortName: 'Seg',
       dayOfWeek: 'Segunda-feira',
-      title: 'Treino A: Peitoral e Tríceps',
-      description: 'Foco: Definição de membros superiores utilizando estabilização no cabo.',
+      title: 'Treino A: Peito e Tríceps',
+      description: 'Foco: Halteres e Polia para modelagem superior.',
       exercises: [
-        { id: 'marco-mon-1', name: 'Crossover (Polia Alta)', sets: 4, reps: '12 a 15', notes: 'Cruzar os cabos no final do movimento.' },
-        { id: 'marco-mon-2', name: 'Supino Inclinado (Halteres)', sets: 3, reps: '10 a 12', notes: 'Descer controladamente para não forçar o ombro.' },
-        { id: 'marco-mon-3', name: 'Tríceps Pushdown (Polia - Barra Reta)', sets: 4, reps: '12 a 15', notes: 'Manter os cotovelos fixos ao lado do corpo.' },
-        { id: 'marco-mon-4', name: 'Tríceps Corda (Polia)', sets: 3, reps: '12 a 15', notes: 'Afastar a corda na contração máxima.' },
+        { id: 'marco-mon-1', name: 'Supino Reto com Halteres', sets: 4, reps: '10 a 12', notes: 'Movimento controlado.' },
+        { id: 'marco-mon-2', name: 'Supino Inclinado na Máquina (Articulada)', sets: 3, reps: '10 a 12' },
+        { id: 'marco-mon-3', name: 'Crucifixo (Peck Deck / Voador)', sets: 3, reps: '12 a 15', notes: 'Foco em apertar bem o peitoral na contração máxima.' },
+        { id: 'marco-mon-4', name: 'Tríceps Pulley (Polia c/ Barra Reta ou V)', sets: 3, reps: '12' },
+        { id: 'marco-mon-5', name: 'Tríceps Corda (Polia)', sets: 3, reps: '12 a 15' }
       ],
       cardio: ''
     },
@@ -51,13 +52,14 @@ const workoutPlans: Record<string, WorkoutDay[]> = {
       id: 'tuesday',
       shortName: 'Ter',
       dayOfWeek: 'Terça-feira',
-      title: 'Treino B: Costas e Lombar',
-      description: 'Foco: Melhoria postural e fortalecimento lombar.',
+      title: 'Treino B: Costas e Bíceps',
+      description: 'Foco: Máquinas e Polia para postura e força.',
       exercises: [
-        { id: 'marco-tue-1', name: 'Puxada Frontal (Polia Alta)', sets: 4, reps: '10 a 12', notes: 'Focar na contração das escápulas.' },
-        { id: 'marco-tue-2', name: 'Remada Baixa com Triângulo (Polia)', sets: 3, reps: '12 a 15', notes: 'Manter o tronco estável.' },
-        { id: 'marco-tue-3', name: 'Extensão Lombar (Máquina ou Banco)', sets: 4, reps: '15', notes: 'Execução lenta para fortalecer lombar com segurança.' },
-        { id: 'marco-tue-4', name: 'Pull-down com Corda (Polia Alta)', sets: 3, reps: '12 a 15', notes: 'Braços semi-estendidos durante todo o arco.' },
+        { id: 'marco-tue-1', name: 'Puxada Alta / Frontal (Máquina ou Polia)', sets: 4, reps: '10 a 12' },
+        { id: 'marco-tue-2', name: 'Remada Sentada na Polia Baixa (Triângulo)', sets: 3, reps: '12' },
+        { id: 'marco-tue-3', name: 'Pulldown com Corda (Polia Alta)', sets: 3, reps: '15' },
+        { id: 'marco-tue-4', name: 'Rosca Direta na Polia Baixa (Barra Reta)', sets: 3, reps: '12' },
+        { id: 'marco-tue-5', name: 'Rosca Martelo com Halteres', sets: 3, reps: '12' }
       ],
       cardio: ''
     },
@@ -65,13 +67,15 @@ const workoutPlans: Record<string, WorkoutDay[]> = {
       id: 'wednesday',
       shortName: 'Qua',
       dayOfWeek: 'Quarta-feira',
-      title: 'Treino C: Membros Inferiores',
-      description: 'Foco: Isometria e máquinas guiadas para fortalecer joelhos.',
+      title: 'Treino C: Pernas e Core',
+      description: 'Foco: Isolar a coxa com zero impacto ou instabilidade no tornozelo.',
       exercises: [
-        { id: 'marco-wed-1', name: 'Cadeira Extensora', sets: 4, reps: '12 a 15', notes: 'Segurar 2 segundos no topo para fortalecer joelhos.' },
-        { id: 'marco-wed-2', name: 'Cadeira Flexora', sets: 4, reps: '12 a 15', notes: 'Controlar a fase de descida do peso.' },
-        { id: 'marco-wed-3', name: 'Leg Press Horizontal', sets: 3, reps: '10 a 12', notes: 'Pés bem apoiados, evitando flexão excessiva do tornozelo.' },
-        { id: 'marco-wed-4', name: 'Elevação Pélvica (Máquina)', sets: 3, reps: '15', notes: 'Contrair bem os glúteos na subida.' },
+        { id: 'marco-wed-1', name: 'Cadeira Extensora', sets: 4, reps: '12 a 15', notes: 'Faça o movimento de forma controlada.' },
+        { id: 'marco-wed-2', name: 'Cadeira Flexora', sets: 4, reps: '12 a 15' },
+        { id: 'marco-wed-3', name: 'Cadeira Abdutora', sets: 3, reps: '15' },
+        { id: 'marco-wed-4', name: 'Cadeira Adutora', sets: 3, reps: '15' },
+        { id: 'marco-wed-5', name: 'Leg Press Horizontal (Carga moderada)', sets: 3, reps: '12', notes: 'Posicione os pés um pouco mais altos para evitar flexão excessiva do tornozelo.' },
+        { id: 'marco-wed-6', name: 'Abdominal Máquina ou na Polia Alta', sets: 4, reps: '15 a 20' }
       ],
       cardio: ''
     },
@@ -79,13 +83,14 @@ const workoutPlans: Record<string, WorkoutDay[]> = {
       id: 'thursday',
       shortName: 'Qui',
       dayOfWeek: 'Quinta-feira',
-      title: 'Treino D: Ombros e Abdômen',
-      description: 'Foco: Estabilização articular e ativação do core.',
+      title: 'Treino D: Ombros',
+      description: 'Foco: Modelagem superior e fortalecimento articular.',
       exercises: [
-        { id: 'marco-thu-1', name: 'Rotação Externa na Polia Baixa', sets: 3, reps: '15', notes: 'Carga leve. Essencial para fortalecer ombro.' },
-        { id: 'marco-thu-2', name: 'Elevação Lateral (Polia Baixa)', sets: 4, reps: '12 a 15', notes: 'Fazer unilateralmente para maior foco.' },
-        { id: 'marco-thu-3', name: 'Desenvolvimento (Máquina Articulada)', sets: 3, reps: '10 a 12', notes: 'Amplitude segura, sem descer abaixo da linha das orelhas.' },
-        { id: 'marco-thu-4', name: 'Abdominal Crunch na Polia', sets: 4, reps: '15 a 20', notes: 'Usar a corda e focar na contração.' },
+        { id: 'marco-thu-1', name: 'Desenvolvimento na Máquina', sets: 4, reps: '10 a 12' },
+        { id: 'marco-thu-2', name: 'Elevação Lateral com Halteres', sets: 4, reps: '12' },
+        { id: 'marco-thu-3', name: 'Elevação Lateral na Polia (Cabo por trás do corpo)', sets: 3, reps: '12 a 15' },
+        { id: 'marco-thu-4', name: 'Crucifixo Invertido (Voador Inverso)', sets: 3, reps: '12' },
+        { id: 'marco-thu-5', name: 'Encolhimento de Ombros com Halteres (Trapézio)', sets: 4, reps: '15' }
       ],
       cardio: ''
     },
@@ -93,15 +98,15 @@ const workoutPlans: Record<string, WorkoutDay[]> = {
       id: 'friday',
       shortName: 'Sex',
       dayOfWeek: 'Sexta-feira',
-      title: 'Treino E: Bíceps e Core',
-      description: 'Foco: Estética dos braços e fortalecimento global.',
+      title: 'Treino E: Circuito Metabólico e Braços (Queima de Gordura)',
+      description: 'Foco: Acelerar o metabolismo com exercícios conjugados (Bi-sets).',
       exercises: [
-        { id: 'marco-fri-1', name: 'Rosca Direta (Polia Baixa - Barra)', sets: 4, reps: '12 a 15', notes: 'Postura reta, sem balançar o tronco.' },
-        { id: 'marco-fri-2', name: 'Rosca Martelo (Halteres)', sets: 3, reps: '10 a 12', notes: 'Movimento alternado.' },
-        { id: 'marco-fri-3', name: 'Prancha Isométrica', sets: 4, reps: '45 a 60 seg', notes: 'Manter o abdômen contraído o tempo todo.' },
-        { id: 'marco-fri-4', name: 'Abdominal Infra (Paralelas ou Solo)', sets: 3, reps: '15 a 20', notes: 'Movimento focado na parte inferior do abdômen.' },
+        { id: 'marco-fri-1', name: 'Rosca Direta com Halteres (Bi-set 1)', sets: 3, reps: '12', notes: 'Executar em sequência com Tríceps Francês sem descansar.' },
+        { id: 'marco-fri-2', name: 'Tríceps Francês com Halter (Bi-set 1)', sets: 3, reps: '12', notes: 'Executar logo após a Rosca Direta, depois descanse.' },
+        { id: 'marco-fri-3', name: 'Elevação Frontal com Polia ou Anilha (Bi-set 2)', sets: 3, reps: '12', notes: 'Executar em sequência com Abdominal Prancha.' },
+        { id: 'marco-fri-4', name: 'Abdominal Prancha (Bi-set 2)', sets: 3, reps: '45s', notes: 'Isometria de 45 segundos logo após a Elevação Frontal.' }
       ],
-      cardio: ''
+      cardio: '20 min de Bicicleta Ergométrica ou Elíptico (Sem impacto no tornozelo)'
     }
   ],
   eliane: [
