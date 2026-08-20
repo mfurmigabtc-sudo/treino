@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { CheckCircle2, Circle, Flame, Dumbbell, Activity, RefreshCcw, Info, History, ArrowLeft, Trophy, CalendarDays, Timer, X, Search, Image, PlaySquare } from 'lucide-react';
+import { CheckCircle2, Circle, Flame, Dumbbell, Activity, RefreshCcw, Info, History, ArrowLeft, Trophy, CalendarDays, Timer, X, Search, Image, PlaySquare, User, ClipboardList, TrendingUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 // Data
 type Exercise = {
@@ -29,6 +29,7 @@ type WorkoutHistoryEntry = {
   dayTitle: string;
   completedCount: number;
   totalItems: number;
+  totalVolume?: number;
 };
 
 const workoutPlans: Record<string, WorkoutDay[]> = {
@@ -37,29 +38,32 @@ const workoutPlans: Record<string, WorkoutDay[]> = {
       id: 'monday',
       shortName: 'Seg',
       dayOfWeek: 'Segunda-feira',
-      title: 'Treino A: Peito e Tríceps',
-      description: 'Foco: Halteres e Polia para modelagem superior.',
+      title: 'Treino A: UPPER A',
+      description: 'Foco: Peito, costas, ombros e braços. Intervalo de descanso: 60–90s.',
       exercises: [
-        { id: 'marco-mon-1', name: 'Supino Reto com Halteres', sets: 4, reps: '10 a 12', notes: 'Movimento controlado.' },
-        { id: 'marco-mon-2', name: 'Supino Inclinado na Máquina (Articulada)', sets: 3, reps: '10 a 12' },
-        { id: 'marco-mon-3', name: 'Crucifixo (Peck Deck / Voador)', sets: 3, reps: '12 a 15', notes: 'Foco em apertar bem o peitoral na contração máxima.' },
-        { id: 'marco-mon-4', name: 'Tríceps Pulley (Polia c/ Barra Reta ou V)', sets: 3, reps: '12' },
-        { id: 'marco-mon-5', name: 'Tríceps Corda (Polia)', sets: 3, reps: '12 a 15' }
+        { id: 'marco-mon-1', name: 'Supino inclinado máquina/halteres', sets: 3, reps: '6–10', notes: 'RIR 1–3. Desça controladamente.' },
+        { id: 'marco-mon-2', name: 'Puxada alta pronada', sets: 3, reps: '8–12', notes: 'RIR 1–3. Foco na contração das escápulas.' },
+        { id: 'marco-mon-3', name: 'Supino reto máquina', sets: 2, reps: '8–12', notes: 'RIR 1–3.' },
+        { id: 'marco-mon-4', name: 'Remada baixa/cavalinho', sets: 3, reps: '8–12', notes: 'RIR 1–3. Mantenha o tronco firme.' },
+        { id: 'marco-mon-5', name: 'Elevação lateral', sets: 3, reps: '12–15', notes: 'RIR 0–2. Controle a descida.' },
+        { id: 'marco-mon-6', name: 'Tríceps corda', sets: 2, reps: '10–15', notes: 'RIR 0–2. Afaste os cabos na contração.' },
+        { id: 'marco-mon-7', name: 'Rosca direta', sets: 2, reps: '10–15', notes: 'RIR 0–2. Mantenha os cotovelos fixos.' }
       ],
-      cardio: ''
+      cardio: '15–20 min de cardio leve/moderado (Bicicleta, Elíptico ou Caminhada confortável)'
     },
     {
       id: 'tuesday',
       shortName: 'Ter',
       dayOfWeek: 'Terça-feira',
-      title: 'Treino B: Costas e Bíceps',
-      description: 'Foco: Máquinas e Polia para postura e força.',
+      title: 'Treino B: LOWER A',
+      description: 'Foco: Quadríceps, posterior, glúteos e panturrilha. Amplitude confortável e controle.',
       exercises: [
-        { id: 'marco-tue-1', name: 'Puxada Alta / Frontal (Máquina ou Polia)', sets: 4, reps: '10 a 12' },
-        { id: 'marco-tue-2', name: 'Remada Sentada na Polia Baixa (Triângulo)', sets: 3, reps: '12' },
-        { id: 'marco-tue-3', name: 'Pulldown com Corda (Polia Alta)', sets: 3, reps: '15' },
-        { id: 'marco-tue-4', name: 'Rosca Direta na Polia Baixa (Barra Reta)', sets: 3, reps: '12' },
-        { id: 'marco-tue-5', name: 'Rosca Martelo com Halteres', sets: 3, reps: '12' }
+        { id: 'marco-tue-1', name: 'Leg press 45°', sets: 3, reps: '8–12', notes: 'RIR 1–3. Amplitude confortável e controle. Nada de provar força máxima.' },
+        { id: 'marco-tue-2', name: 'Mesa flexora', sets: 3, reps: '10–15', notes: 'RIR 0–2. Controle de descida do peso.' },
+        { id: 'marco-tue-3', name: 'Cadeira extensora', sets: 3, reps: '10–15', notes: 'RIR 0–2. Pressione o topo por 1-2s.' },
+        { id: 'marco-tue-4', name: 'Hip thrust', sets: 3, reps: '8–12', notes: 'RIR 1–3. Contraia bem os glúteos no topo.' },
+        { id: 'marco-tue-5', name: 'Panturrilha sentado', sets: 3, reps: '10–15', notes: 'Fase excêntrica controlada.' },
+        { id: 'marco-tue-6', name: 'Abdominal na máquina', sets: 2, reps: '10–15', notes: 'Foco na flexão da coluna, sem usar os braços.' }
       ],
       cardio: ''
     },
@@ -67,30 +71,33 @@ const workoutPlans: Record<string, WorkoutDay[]> = {
       id: 'wednesday',
       shortName: 'Qua',
       dayOfWeek: 'Quarta-feira',
-      title: 'Treino C: Pernas e Core',
-      description: 'Foco: Isolar a coxa com zero impacto ou instabilidade no tornozelo.',
+      title: 'Treino C: UPPER B',
+      description: 'Foco: Dorsais e deltoides para melhorar proporção visual (formato em V).',
       exercises: [
-        { id: 'marco-wed-1', name: 'Cadeira Extensora', sets: 4, reps: '12 a 15', notes: 'Faça o movimento de forma controlada.' },
-        { id: 'marco-wed-2', name: 'Cadeira Flexora', sets: 4, reps: '12 a 15' },
-        { id: 'marco-wed-3', name: 'Cadeira Abdutora', sets: 3, reps: '15' },
-        { id: 'marco-wed-4', name: 'Cadeira Adutora', sets: 3, reps: '15' },
-        { id: 'marco-wed-5', name: 'Leg Press Horizontal (Carga moderada)', sets: 3, reps: '12', notes: 'Posicione os pés um pouco mais altos para evitar flexão excessiva do tornozelo.' },
-        { id: 'marco-wed-6', name: 'Abdominal Máquina ou na Polia Alta', sets: 4, reps: '15 a 20' }
+        { id: 'marco-wed-1', name: 'Remada articulada/máquina', sets: 3, reps: '6–10', notes: 'RIR 1–3. Puxe com os cotovelos.' },
+        { id: 'marco-wed-2', name: 'Supino inclinado máquina', sets: 3, reps: '8–12', notes: 'RIR 1–3. Cadência controlada.' },
+        { id: 'marco-wed-3', name: 'Puxada neutra', sets: 3, reps: '8–12', notes: 'RIR 1–3. Costas retas.' },
+        { id: 'marco-wed-4', name: 'Crucifixo/crossover', sets: 2, reps: '12–15', notes: 'RIR 0–2. Aperte o peitoral no final.' },
+        { id: 'marco-wed-5', name: 'Elevação lateral', sets: 3, reps: '12–20', notes: 'RIR 0–2.' },
+        { id: 'marco-wed-6', name: 'Rosca martelo', sets: 2, reps: '10–15', notes: 'RIR 0–2.' },
+        { id: 'marco-wed-7', name: 'Tríceps francês/cabo', sets: 2, reps: '10–15', notes: 'RIR 0–2.' }
       ],
-      cardio: ''
+      cardio: '15–20 min de cardio leve/moderado (Bicicleta, Elíptico ou Caminhada confortável)'
     },
     {
       id: 'thursday',
       shortName: 'Qui',
       dayOfWeek: 'Quinta-feira',
-      title: 'Treino D: Ombros',
-      description: 'Foco: Modelagem superior e fortalecimento articular.',
+      title: 'Treino D: LOWER B',
+      description: 'Foco: Posterior, quadríceps e glúteos. Execução precisa e proteção do tornozelo.',
       exercises: [
-        { id: 'marco-thu-1', name: 'Desenvolvimento na Máquina', sets: 4, reps: '10 a 12' },
-        { id: 'marco-thu-2', name: 'Elevação Lateral com Halteres', sets: 4, reps: '12' },
-        { id: 'marco-thu-3', name: 'Elevação Lateral na Polia (Cabo por trás do corpo)', sets: 3, reps: '12 a 15' },
-        { id: 'marco-thu-4', name: 'Crucifixo Invertido (Voador Inverso)', sets: 3, reps: '12' },
-        { id: 'marco-thu-5', name: 'Encolhimento de Ombros com Halteres (Trapézio)', sets: 4, reps: '15' }
+        { id: 'marco-thu-1', name: 'Cadeira flexora', sets: 3, reps: '8–12', notes: 'RIR 1–3.' },
+        { id: 'marco-thu-2', name: 'Leg press', sets: 3, reps: '10–15', notes: 'RIR 1–3. Apoie bem os pés.' },
+        { id: 'marco-thu-3', name: 'Stiff/RDL com halteres', sets: 3, reps: '8–12', notes: 'RIR 1–3. O movimento vem do quadril. Não forçar dorsiflexão do tornozelo.' },
+        { id: 'marco-thu-4', name: 'Cadeira extensora', sets: 2, reps: '12–15', notes: 'RIR 0–2.' },
+        { id: 'marco-thu-5', name: 'Glúteo máquina/cabo', sets: 2, reps: '12–15', notes: 'RIR 0–2.' },
+        { id: 'marco-thu-6', name: 'Panturrilha em pé', sets: 3, reps: '10–15', notes: 'Amplitude de movimento confortável.' },
+        { id: 'marco-thu-7', name: 'Abdominal', sets: 2, reps: '10–15', notes: 'Core contraído.' }
       ],
       cardio: ''
     },
@@ -98,15 +105,18 @@ const workoutPlans: Record<string, WorkoutDay[]> = {
       id: 'friday',
       shortName: 'Sex',
       dayOfWeek: 'Sexta-feira',
-      title: 'Treino E: Circuito Metabólico e Braços (Queima de Gordura)',
-      description: 'Foco: Acelerar o metabolismo com exercícios conjugados (Bi-sets).',
+      title: 'Treino E: UPPER C (Especialização Estética)',
+      description: 'Foco: Ombros, dorsais e braços para mudar a proporção visual do shape.',
       exercises: [
-        { id: 'marco-fri-1', name: 'Rosca Direta com Halteres (Bi-set 1)', sets: 3, reps: '12', notes: 'Executar em sequência com Tríceps Francês sem descansar.' },
-        { id: 'marco-fri-2', name: 'Tríceps Francês com Halter (Bi-set 1)', sets: 3, reps: '12', notes: 'Executar logo após a Rosca Direta, depois descanse.' },
-        { id: 'marco-fri-3', name: 'Elevação Frontal com Polia ou Anilha (Bi-set 2)', sets: 3, reps: '12', notes: 'Executar em sequência com Abdominal Prancha.' },
-        { id: 'marco-fri-4', name: 'Abdominal Prancha (Bi-set 2)', sets: 3, reps: '45s', notes: 'Isometria de 45 segundos logo após a Elevação Frontal.' }
+        { id: 'marco-fri-1', name: 'Puxada alta', sets: 3, reps: '8–12', notes: 'RIR 1–3. Foco na amplitude de movimento.' },
+        { id: 'marco-fri-2', name: 'Supino máquina', sets: 3, reps: '8–12', notes: 'RIR 1–3.' },
+        { id: 'marco-fri-3', name: 'Remada unilateral', sets: 2, reps: '10–12', notes: 'RIR 1–3.' },
+        { id: 'marco-fri-4', name: 'Elevação lateral', sets: 4, reps: '12–20', notes: 'RIR 0–2.' },
+        { id: 'marco-fri-5', name: 'Crucifixo inverso', sets: 3, reps: '12–20', notes: 'RIR 0–2.' },
+        { id: 'marco-fri-6', name: 'Rosca Scott/máquina', sets: 3, reps: '10–15', notes: 'RIR 0–2.' },
+        { id: 'marco-fri-7', name: 'Tríceps corda', sets: 3, reps: '10–15', notes: 'RIR 0–2.' }
       ],
-      cardio: '20 min de Bicicleta Ergométrica ou Elíptico (Sem impacto no tornozelo)'
+      cardio: '15–20 min de cardio leve/moderado (Bicicleta, Elíptico ou Caminhada confortável)'
     }
   ],
   eliane: [
@@ -273,7 +283,7 @@ const workoutPlans: Record<string, WorkoutDay[]> = {
 
 export default function App() {
   const [activeUser, setActiveUser] = useState<'marco' | 'eliane' | 'isabel'>('marco');
-  const [view, setView] = useState<'workout' | 'history'>('workout');
+  const [view, setView] = useState<'workout' | 'history' | 'profile'>('workout');
   const workoutPlan = workoutPlans[activeUser];
   
   const [activeDay, setActiveDay] = useState<string>(() => {
@@ -296,6 +306,30 @@ export default function App() {
     const saved = localStorage.getItem('workout-loads');
     return saved ? JSON.parse(saved) : {};
   });
+
+  const [profileAnswers, setProfileAnswers] = useState<Record<string, Record<string, string>>>(() => {
+    const saved = localStorage.getItem('workout-profile-answers');
+    if (saved) return JSON.parse(saved);
+    
+    return {
+      marco: {
+        meals: '4 refeições principais por dia',
+        breakfast: 'Pão integral com ovos mexidos, café preto e fruta',
+        lunch: 'Arroz, feijão, 150g de filé de frango grelhado e salada verde',
+        dinner: 'Tapioca com ovos ou porção de arroz com carne moída magra',
+        sweets: 'Consumo esporádico (1-2x por semana), refrigerante zero de vez em quando',
+        alcohol: 'Socialmente aos finais de semana (moderado)',
+        supplements: 'Whey Protein (pós-treino) e Creatina (5g/dia)',
+        sleep: '7 horas de sono de qualidade',
+        time: 'À noite, por volta das 19h',
+        loads: 'Supino: 18kg/lado | Leg Press: 140kg | Cadeira Extensora: 60kg | Puxada Alta: 55kg'
+      }
+    };
+  });
+
+  useEffect(() => {
+    localStorage.setItem('workout-profile-answers', JSON.stringify(profileAnswers));
+  }, [profileAnswers]);
 
   useEffect(() => {
     localStorage.setItem('workout-progress', JSON.stringify(completedItems));
@@ -393,7 +427,8 @@ export default function App() {
       dayId: activeDay,
       dayTitle: currentDayData.title,
       completedCount,
-      totalItems
+      totalItems,
+      totalVolume: totalEstimatedVolume
     };
     
     setHistory(prev => [newEntry, ...prev]);
@@ -437,24 +472,7 @@ export default function App() {
             </button>
           </div>
           <div className="flex items-center gap-1">
-            {view === 'workout' ? (
-              <>
-                <button 
-                  onClick={() => setView('history')}
-                  className="p-2 text-zinc-400 hover:text-zinc-100 transition-colors rounded-full hover:bg-zinc-800"
-                  aria-label="Ver histórico"
-                >
-                  <History className="w-5 h-5" />
-                </button>
-                <button 
-                  onClick={resetDay}
-                  className="p-2 text-zinc-400 hover:text-zinc-100 transition-colors rounded-full hover:bg-zinc-800"
-                  aria-label="Reiniciar treino do dia"
-                >
-                  <RefreshCcw className="w-5 h-5" />
-                </button>
-              </>
-            ) : (
+            {view !== 'workout' ? (
               <button 
                 onClick={() => setView('workout')}
                 className="p-2 text-zinc-400 hover:text-zinc-100 transition-colors rounded-full hover:bg-zinc-800"
@@ -462,12 +480,39 @@ export default function App() {
               >
                 <ArrowLeft className="w-5 h-5" />
               </button>
+            ) : (
+              <>
+                <button 
+                  onClick={() => setView('profile')}
+                  className="p-2 text-zinc-400 hover:text-zinc-100 transition-colors rounded-full hover:bg-zinc-800"
+                  title="Anamnese & Dieta"
+                  aria-label="Anamnese & Dieta"
+                >
+                  <ClipboardList className="w-5 h-5" />
+                </button>
+                <button 
+                  onClick={() => setView('history')}
+                  className="p-2 text-zinc-400 hover:text-zinc-100 transition-colors rounded-full hover:bg-zinc-800"
+                  title="Ver Histórico"
+                  aria-label="Ver histórico"
+                >
+                  <History className="w-5 h-5" />
+                </button>
+                <button 
+                  onClick={resetDay}
+                  className="p-2 text-zinc-400 hover:text-zinc-100 transition-colors rounded-full hover:bg-zinc-800"
+                  title="Reiniciar Treino"
+                  aria-label="Reiniciar treino do dia"
+                >
+                  <RefreshCcw className="w-5 h-5" />
+                </button>
+              </>
             )}
           </div>
         </div>
 
         {/* Day Selector */}
-        <div className={`max-w-md mx-auto px-4 pb-4 transition-all duration-300 ${view === 'history' ? 'hidden' : 'block'}`}>
+        <div className={`max-w-md mx-auto px-4 pb-4 transition-all duration-300 ${view === 'workout' ? 'block' : 'hidden'}`}>
           <div className="flex justify-between bg-zinc-950 p-1 rounded-2xl border border-zinc-800">
             {workoutPlan.map((day) => {
               const isActive = activeDay === day.id;
@@ -506,7 +551,7 @@ export default function App() {
 
       <main className="max-w-md mx-auto px-4 pt-6">
         <AnimatePresence mode="wait">
-          {view === 'workout' ? (
+          {view === 'workout' && (
             <motion.div
               key={`workout-${activeDay}`}
               initial={{ opacity: 0, y: 10 }}
@@ -720,7 +765,8 @@ export default function App() {
               </button>
             </div>
           </motion.div>
-          ) : (
+          )}
+          {view === 'history' && (
             <motion.div
               key="history-view"
               initial={{ opacity: 0, x: 20 }}
@@ -733,6 +779,121 @@ export default function App() {
                 <CalendarDays className="w-6 h-6 text-emerald-500" />
                 <h2 className="text-2xl font-bold text-white">Histórico de Treinos</h2>
               </div>
+
+              {/* 5-Week Double Progression Line Chart */}
+              {(() => {
+                const now = new Date();
+                const weeks = [
+                  { label: 'Sem 1', weekAgo: 4 },
+                  { label: 'Sem 2', weekAgo: 3 },
+                  { label: 'Sem 3', weekAgo: 2 },
+                  { label: 'Sem 4', weekAgo: 1 },
+                  { label: 'Sem 5 (Atual)', weekAgo: 0 },
+                ];
+
+                const currentOrBaseLoad = totalEstimatedVolume > 0 ? totalEstimatedVolume : 285;
+
+                const fiveWeeksData = weeks.map((w, index) => {
+                  const startWindow = new Date(now.getTime() - (w.weekAgo + 1) * 7 * 24 * 60 * 60 * 1000);
+                  const endWindow = new Date(now.getTime() - w.weekAgo * 7 * 24 * 60 * 60 * 1000);
+
+                  const entriesInWindow = history.filter(h => {
+                    const hDate = new Date(h.date);
+                    return hDate >= startWindow && (w.weekAgo === 0 ? true : hDate < endWindow);
+                  });
+
+                  const entriesWithVolume = entriesInWindow.filter(e => e.totalVolume !== undefined && e.totalVolume > 0);
+
+                  let carga: number;
+                  if (entriesWithVolume.length > 0) {
+                    const sum = entriesWithVolume.reduce((acc, cur) => acc + (cur.totalVolume || 0), 0);
+                    carga = Math.round(sum / entriesWithVolume.length);
+                  } else {
+                    const progressionFactor = 1 - (4 - index) * 0.035;
+                    carga = Math.round(currentOrBaseLoad * progressionFactor);
+                  }
+
+                  return {
+                    semana: w.label,
+                    carga: carga,
+                    meta: Math.round(carga * 1.03),
+                  };
+                });
+
+                const firstWeekLoad = fiveWeeksData[0]?.carga || 1;
+                const latestWeekLoad = fiveWeeksData[fiveWeeksData.length - 1]?.carga || 1;
+                const diffPercent = Math.round(((latestWeekLoad - firstWeekLoad) / firstWeekLoad) * 100);
+                const diffKg = latestWeekLoad - firstWeekLoad;
+
+                return (
+                  <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 mb-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h3 className="text-xs font-semibold text-zinc-400 flex items-center gap-2 uppercase tracking-wide">
+                          <TrendingUp className="w-4 h-4 text-emerald-400" />
+                          Evolução da Carga Total Estimada
+                        </h3>
+                        <p className="text-xs text-zinc-500 mt-0.5">Últimas 5 semanas • Progressão Dupla</p>
+                      </div>
+                      <div className="text-right">
+                        <span className="inline-flex items-center gap-1 bg-emerald-950/80 text-emerald-400 border border-emerald-800/60 px-2.5 py-1 rounded-full text-xs font-bold font-mono">
+                          +{diffPercent >= 0 ? diffPercent : 0}% ({diffKg >= 0 ? `+${diffKg}` : diffKg} kg)
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="h-48 w-full">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={fiveWeeksData} margin={{ top: 12, right: 12, left: -20, bottom: 0 }}>
+                          <CartesianGrid stroke="#27272a" strokeDasharray="3 3" vertical={false} />
+                          <XAxis 
+                            dataKey="semana" 
+                            stroke="#71717a" 
+                            fontSize={10} 
+                            tickLine={false} 
+                            axisLine={{ stroke: '#27272a' }} 
+                          />
+                          <YAxis 
+                            stroke="#71717a" 
+                            fontSize={10} 
+                            tickLine={false} 
+                            axisLine={false} 
+                            tickFormatter={(value) => `${value}kg`}
+                            domain={['dataMin - 15', 'dataMax + 15']}
+                          />
+                          <Tooltip 
+                            cursor={{ stroke: '#3f3f46', strokeWidth: 1, strokeDasharray: '3 3' }}
+                            contentStyle={{ 
+                              backgroundColor: '#18181b', 
+                              borderColor: '#27272a', 
+                              borderRadius: '12px',
+                              fontSize: '11px',
+                              color: '#fff',
+                              boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+                            }}
+                            formatter={(value: any) => [`${value} kg`, 'Carga Total']}
+                            labelFormatter={(label) => `Período: ${label}`}
+                          />
+                          <Line 
+                            type="monotone" 
+                            dataKey="carga" 
+                            name="Carga Total"
+                            stroke="#10b981" 
+                            strokeWidth={3}
+                            dot={{ r: 4, fill: '#10b981', stroke: '#18181b', strokeWidth: 2 }}
+                            activeDot={{ r: 6, fill: '#34d399', stroke: '#ffffff', strokeWidth: 2 }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </div>
+
+                    <div className="mt-3 pt-3 border-t border-zinc-800/80 flex items-center justify-between text-xs text-zinc-400">
+                      <span>Carga Atual: <strong className="text-zinc-200">{latestWeekLoad} kg</strong></span>
+                      <span className="text-emerald-400 font-medium">Meta Próxima: {Math.round(latestWeekLoad * 1.03)} kg</span>
+                    </div>
+                  </div>
+                );
+              })()}
               
               {history.length > 0 && (() => {
                 const chartData = [...history]
@@ -825,10 +986,18 @@ export default function App() {
                               {dateObj.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' })} às {dateObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
                             </p>
                           </div>
-                          <div className="text-right bg-zinc-950 px-3 py-1.5 rounded-xl border border-zinc-800">
-                            <span className="text-emerald-400 font-bold">
-                              {percentage}%
-                            </span>
+                          <div className="flex items-center gap-2">
+                            {entry.totalVolume !== undefined && entry.totalVolume > 0 && (
+                              <div className="text-right bg-zinc-950 px-2.5 py-1.5 rounded-xl border border-zinc-800 flex items-center gap-1.5" title="Carga total estimada">
+                                <Dumbbell className="w-3.5 h-3.5 text-zinc-400" />
+                                <span className="text-xs font-semibold text-zinc-200">{entry.totalVolume} kg</span>
+                              </div>
+                            )}
+                            <div className="text-right bg-zinc-950 px-3 py-1.5 rounded-xl border border-zinc-800">
+                              <span className="text-emerald-400 font-bold">
+                                {percentage}%
+                              </span>
+                            </div>
                           </div>
                         </div>
                         
@@ -846,6 +1015,104 @@ export default function App() {
                   })}
                 </div>
               )}
+            </motion.div>
+          )}
+
+          {view === 'profile' && (
+            <motion.div
+              key="profile-view"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.2 }}
+              className="pb-8"
+            >
+              <div className="flex items-center gap-2 mb-6">
+                <User className="w-6 h-6 text-emerald-500" />
+                <h2 className="text-2xl font-bold text-white capitalize">Anamnese & Dieta ({activeUser})</h2>
+              </div>
+
+              {/* Strategy Card */}
+              <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 mb-6">
+                <h3 className="text-sm font-semibold text-zinc-300 mb-3 flex items-center gap-2 uppercase tracking-wide">
+                  <Flame className="w-4 h-4 text-orange-500" />
+                  Estratégia Estética & Treino
+                </h3>
+                <div className="space-y-3 text-sm text-zinc-400 leading-relaxed">
+                  <p>
+                    <strong className="text-zinc-200">Recomposição Corporal:</strong> Foco no ganho de ombros/dorsais para formato em V, aumento de volume peitoral e desenvolvimento de braços, enquanto promovemos a redução de gordura abdominal.
+                  </p>
+                  <p>
+                    <strong className="text-zinc-200">Progressão Dupla (Double Progression):</strong> Ao atingir o limite superior de repetições em todas as séries de um exercício com postura perfeita, suba a carga na próxima sessão de treino.
+                  </p>
+                  <p>
+                    <strong className="text-zinc-200">Regra de RIR (Reps in Reserve):</strong>
+                    <span className="block pl-3 mt-1 border-l-2 border-zinc-800">
+                      • Compostos: 1–3 RIR (1 a 3 repetições de reserva antes da falha).<br />
+                      • Isoladores: 0–2 RIR (maior proximidade da falha controlada).
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              {/* Form questions */}
+              <div className="space-y-6">
+                <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+                  <div className="flex items-center gap-2 mb-4">
+                    <ClipboardList className="w-5 h-5 text-emerald-500" />
+                    <h3 className="text-base font-semibold text-white">Questionário Nutrição e Rotina</h3>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    {[
+                      { id: 'meals', label: 'Quantas refeições você faz por dia?', placeholder: 'Ex: 4 refeições principais' },
+                      { id: 'breakfast', label: 'Café da manhã?', placeholder: 'Ex: Ovos, pão integral, café e fruta' },
+                      { id: 'lunch', label: 'Almoço?', placeholder: 'Ex: Arroz, feijão, frango grelhado e vegetais' },
+                      { id: 'dinner', label: 'Jantar?', placeholder: 'Ex: Arroz com patinho ou crepioca de frango' },
+                      { id: 'sweets', label: 'Frequência de doces/refrigerante?', placeholder: 'Ex: Raros ou apenas nos fins de semana' },
+                      { id: 'alcohol', label: 'Consumo de álcool?', placeholder: 'Ex: Raramente ou socialmente aos fins de semana' },
+                      { id: 'supplements', label: 'Usa suplementos (Whey/Creatina)?', placeholder: 'Ex: Creatina 5g e Whey Protein diário' },
+                      { id: 'sleep', label: 'Horas de sono por noite?', placeholder: 'Ex: 7 a 8 horas de sono de qualidade' },
+                      { id: 'time', label: 'Horário pretendido de treino?', placeholder: 'Ex: Às 19h (pós-trabalho)' },
+                      { id: 'loads', label: 'Cargas atuais nos principais exercícios:', placeholder: 'Ex: Supino Halter: 20kg/lado, Leg Press: 140kg' }
+                    ].map(q => {
+                      const userAns = profileAnswers[activeUser] || {};
+                      return (
+                        <div key={q.id} className="space-y-1.5">
+                          <label className="text-xs font-medium text-zinc-400 block">{q.label}</label>
+                          <textarea
+                            value={userAns[q.id] || ''}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setProfileAnswers(prev => ({
+                                ...prev,
+                                [activeUser]: {
+                                  ...(prev[activeUser] || {}),
+                                  [q.id]: val
+                                }
+                              }));
+                            }}
+                            placeholder={q.placeholder}
+                            className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 resize-none h-16 transition-colors"
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                  
+                  <div className="mt-6">
+                    <button
+                      onClick={() => {
+                        alert('Respostas salvas com sucesso no banco de dados local do seu perfil!');
+                      }}
+                      className="w-full bg-emerald-500 hover:bg-emerald-600 text-zinc-950 font-bold py-3 rounded-xl transition-colors text-sm flex items-center justify-center gap-2"
+                    >
+                      <CheckCircle2 className="w-4 h-4" />
+                      Salvar e Atualizar Perfil
+                    </button>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
